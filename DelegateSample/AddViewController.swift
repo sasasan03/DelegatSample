@@ -17,7 +17,7 @@ protocol TextLabelInput {
 
 class AddViewController: UIViewController {
     
-    //MARK: 🍔２　使用するdelegateを記述
+    //MARK: 🍔２　処理を移譲する側のdelegateを記述
     var delegate: TextLabelInput?
     
     @IBOutlet weak var addTextField: UITextField!

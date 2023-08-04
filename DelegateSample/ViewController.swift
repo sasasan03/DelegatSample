@@ -18,13 +18,22 @@ class ViewController: UIViewController, TextLabelInput {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let nav = segue.destination as? UINavigationController else { return }
         guard let addVC = nav.topViewController as? AddViewController else { return }
-        //MARK: 🍔５　このViewがdelegatを使用することを宣言する。ここ大事。
+        //MARK: 🍔５　このViewがdelegatを使用することを宣言する。ここ大事。（委譲されることを宣言する）
         //＊ここで宣言しておかないと、addSaveのメソッドが機能しない。
-        addVC.delegate = self
+        addVC.delegate = self//AddViewControllerのnilのdelegateにデータを代入する。
     }
     //MARK: 🍔６　デリゲートから受け取ったデータを使用して、Labelを上書きする。（デリゲートの具体的な処理内容）
+    //*宣言がない場合このメソッドは呼ばれない。
     func addSave(item: String) {
         textLabel.text = item
     }
 }
 
+
+class SubViewContoroller: TextLabelInput {
+    func addSave(item: String) {
+        
+    }
+}
+
+class Sub2ViewController { }
