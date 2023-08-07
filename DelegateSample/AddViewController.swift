@@ -11,21 +11,27 @@ import UIKit
 
 //MARK: 🍔１　ViewControllerのLabelに反映させるために使用するプロトコル。ここが難しかった。メソッド？プロパティ？どっち書けばええの？
 //このプロトコルを使って振る舞いを決める。（今回はこのデリゲートを使用してLabelの上書きを行いたい）
-protocol TextLabelInput {
+protocol TextLabelInput: AnyObject { //デリゲートはweakをつける
     func addSave(item: String)
 }
 
 class AddViewController: UIViewController {
     
     //MARK: 🍔２　処理を移譲する側のdelegateを記述
-    var delegate: TextLabelInput?
+   weak var delegate: TextLabelInput?
     
     @IBOutlet weak var addTextField: UITextField!
     
     @IBAction func save(_ sender: Any) {
         guard let addTextField = addTextField.text else { return }
         //MARK: 🍔３　delegateを使ってtextFiledからデータをとってくる。ここのデータをプロトコルに適合されたViewへ渡す。
-        delegate?.addSave(item: addTextField)
+       // delegate?.addSave(item: addTextField)//インスタンスが入っていなければメソッド呼ばれる。
+        //シンタックスシュガー。
+        if let delegate = delegate {
+            delegate.addSave(item: addTextField)
+        }
+        //a?.value
+        //a?.make()
         dismiss(animated: true)
     }
 }

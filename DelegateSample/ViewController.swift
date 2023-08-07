@@ -14,7 +14,9 @@ class ViewController: UIViewController, TextLabelInput {
     
     @IBOutlet weak var textLabel: UILabel!
     
+    //遷移先をまず作る。
     //segueを使用して値の受け渡しを行うためにprepareを使用。
+    //遷移する前にデリゲートをセット
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let nav = segue.destination as? UINavigationController else { return }
         guard let addVC = nav.topViewController as? AddViewController else { return }
@@ -23,8 +25,11 @@ class ViewController: UIViewController, TextLabelInput {
         addVC.delegate = self//AddViewControllerのnilのdelegateにデータを代入する。
     }
     //MARK: 🍔６　デリゲートから受け取ったデータを使用して、Labelを上書きする。（デリゲートの具体的な処理内容）
-    //*宣言がない場合このメソッドは呼ばれない。
-    func addSave(item: String) {
+    //*⭕️デリゲートの設定がない場合。
+    //*❌宣言がない場合このメソッドは呼ばれない。宣言（デクラレーション）定義（defini/tion名）
+    //宣言・・こういうものがありますよ。どういうものか言ってない。抽象的。
+    //定義・・こういうものですよ。具体的。
+    func addSave(item: String) {//呼ばれたところ
         textLabel.text = item
     }
 }
