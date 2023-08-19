@@ -25,9 +25,10 @@ class AddViewController: UIViewController {
     @IBAction func save(_ sender: Any) {
         guard let addTextField = addTextField.text else { return }
         //MARK: 🍔３　delegateを使ってtextFiledからデータをとってくる。ここのデータをプロトコルに適合されたViewへ渡す。
-       // delegate?.addSave(item: addTextField)//インスタンスが入っていなければメソッド呼ばれる。
         //シンタックスシュガー。
+       // delegate?.addSave(item: addTextField)//インスタンスが入っていなければメソッド呼ばれる。
         if let delegate = delegate {
+            //プロトコルのaddSaveが使われている。
             delegate.addSave(item: addTextField)
         }
         //a?.value
@@ -35,3 +36,5 @@ class AddViewController: UIViewController {
         dismiss(animated: true)
     }
 }
+
+
