@@ -1,78 +1,41 @@
 import UIKit
+//デリゲートを使っているクラス (デリゲートの役割を持つクラス):AddViewControllerSample
+//プロトコルのメソッドを使うことで、何らかの処理を委譲しています。具体的には、save メソッド内で delegate?.saveFruit(fruit: apple) のように、デリゲートを通して saveFruit メソッドを呼び出しています
+//デリゲートが使われているクラス (デリゲートの具体的な実装を持つクラス):ViewControllerSample
+//AddViewControllerDelegate プロトコルに従い、そのメソッドを具体的に実装しています。具体的には、saveFruit(fruit: String) メソッドがこのクラス内で定義され、実際の動作が記述されています。
 
-enum GogoichiKind: String {
 
-    case Butaman = "豚まん"
-    case Dango = "団子"
-    case Gyoza = "餃子"
+protocol AddViewControllerDelegate: AnyObject {
+    func saveFruit(fruit: String)
 }
 
-class Gogoichi {
-
-    var price: Int {
-
-        switch kind {
-        case .Butaman:
-            return 170
-        case .Dango:
-            return 30
-        case .Gyoza:
-            return 30
-        }
+class AddViewControllerSample {//委譲する側
+    
+    var apple = "りんご" //（仮）ユーザー入力項目
+    weak var delegate: AddViewControllerDelegate?
+    func save(){
+        //デリゲートのメソッドを呼ぶ。（delegateがnilでない場合は、メソッドが実行される。）
+        delegate?.saveFruit(fruit: apple)
     }
-
-    var kind: GogoichiKind = .Butaman
+    
 }
 
-protocol SendGogoichi {
-
-    func send(gogoichi: Gogoichi) -> Void
-}
-
-class Amazon: SendGogoichi {
-
-
-    func send(gogoichi: Gogoichi) {
-
-        //
-        for _ in 0...2 {
-            sleep(1)
-            print("配達中...")
-        }
-        print("\(gogoichi.kind)の送信を完了しました.値段は\(gogoichi.price)円です.")
-
+class ViewControllerSample: AddViewControllerDelegate { //委譲される側
+    
+    var fruitName: [String] = []
+    
+    func saveFruit(fruit: String) {
+        fruitName.append(fruit)
+        print(fruitName)
     }
+    
 }
 
-class ButamanPersonInTokyo {
-
-    var delegate: SendGogoichi?
-
-    func orderButaman() {
-
-        let gogoichi: Gogoichi = Gogoichi()
-        gogoichi.kind = .Butaman
-        delegate?.send(gogoichi: gogoichi)
-    }
-}
-
-class OsakaFriend: SendGogoichi {
-
-    func send(gogoichi: Gogoichi) {
-
-        for _ in 0...2 {
-            sleep(1)
-            print("配達中...")
-        }
-        print("\(gogoichi.kind)の送信を完了しました.値段は友達なので無料だよ.")
-    }
-}
-let osakaFriends = OsakaFriend()
-
-let butamanPerson = ButamanPersonInTokyo()
-
-butamanPerson.delegate = osakaFriends
-
-butamanPerson.orderButaman()
+let viewControllerSample = ViewControllerSample()
+let addViewControllerSample = AddViewControllerSample()
+//デリゲートを設定する。
+addViewControllerSample.delegate = viewControllerSample
+//saveItemを呼び出す。
+addViewControllerSample.save()//["りんご"]
 
 

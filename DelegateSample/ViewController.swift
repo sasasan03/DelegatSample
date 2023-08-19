@@ -13,7 +13,6 @@ import UIKit
 class ViewController: UIViewController, TextLabelInput {
     
     @IBOutlet weak var textLabel: UILabel!
-    
     //遷移先をまず作る。
     //segueを使用して値の受け渡しを行うためにprepareを使用。
     //遷移する前にデリゲートをセット
